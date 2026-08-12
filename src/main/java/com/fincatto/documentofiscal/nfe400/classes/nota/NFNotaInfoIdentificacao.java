@@ -117,6 +117,9 @@ public class NFNotaInfoIdentificacao extends DFBase {
     @Element(name = "dPrevEntrega", required = false)
     private LocalDate dataPrevistaEntrega;
 
+    @Element(name = "cIndOp", required = false)
+    private String cIndOp;
+
     public void setUf(final DFUnidadeFederativa uf) {
         this.uf = uf;
     }
@@ -372,5 +375,13 @@ public class NFNotaInfoIdentificacao extends DFBase {
     public void setDataPrevistaEntrega(LocalDate dataPrevistaEntrega) {
         this.dataPrevistaEntrega = dataPrevistaEntrega;
     }
-	
+
+    public String getcIndOp() {
+        return cIndOp;
+    }
+
+    public void setcIndOp(String cIndOp) {
+        DFStringValidador.tamanho6(cIndOp, "Código indicador do local da operação de fornecimento");
+        this.cIndOp = cIndOp;
+    }
 }
