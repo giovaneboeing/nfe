@@ -5,40 +5,43 @@ import com.fincatto.documentofiscal.nfe.NFeConfig;
 import com.fincatto.documentofiscal.nfe400.classes.NFAutorizador400;
 import com.fincatto.documentofiscal.nfe400.classes.nota.downloadxml.NFCeDownloadXML;
 import com.fincatto.documentofiscal.nfe400.classes.nota.downloadxml.NFCeDownloadXMLRetorno;
-import com.fincatto.documentofiscal.nfe400.webservices.gerado.NFCeDownloadXMLStub;
-import com.fincatto.documentofiscal.nfe400.webservices.gerado.NFCeDownloadXMLStub.NfeDadosMsg;
-import com.fincatto.documentofiscal.nfe400.webservices.gerado.NFCeDownloadXMLStub.NfceDownloadXMLResult;
-import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.util.AXIOMUtil;
+import com.fincatto.documentofiscal.utils.DFHttpClient;
+import com.fincatto.documentofiscal.utils.DFSoapEnvelope;
 
 import java.math.BigDecimal;
 
 class WSNFCeDownloadXML implements DFLog {
 
     private static final BigDecimal VERSAO_LEIAUTE = new BigDecimal("1.00");
+    private static final String NAMESPACE_WSDL = "http://www.portalfiscal.inf.br/nfe/wsdl/NFCeDownloadXML";
+    private static final String SOAP_ACTION = WSNFCeDownloadXML.NAMESPACE_WSDL + "/nfceDownloadXML";
     private final NFeConfig config;
+    private final DFHttpClient httpClient;
 
-    WSNFCeDownloadXML(final NFeConfig config) {
+    WSNFCeDownloadXML(final NFeConfig config, final DFHttpClient httpClient) {
         this.config = config;
+        this.httpClient = httpClient;
     }
 
     NFCeDownloadXMLRetorno downloadXML(final String chave) throws Exception {
-        final OMElement omElementConsulta = AXIOMUtil.stringToOM(this.gerarDadosDownloadXML(chave).toString());
-        this.getLogger().debug(omElementConsulta.toString());
+        final String xmlConsulta = this.gerarDadosDownloadXML(chave).toString();
+        this.getLogger().debug(xmlConsulta);
 
-        final OMElement omElementRetorno = this.efetuaDownload(omElementConsulta);
-        this.getLogger().debug(omElementRetorno.toString());
+        final String xmlRetorno = this.efetuaDownload(xmlConsulta, chave);
+        this.getLogger().debug(xmlRetorno);
 
-        return this.config.getPersister().read(NFCeDownloadXMLRetorno.class, omElementRetorno.toString());
+        return this.config.getPersister().read(NFCeDownloadXMLRetorno.class, xmlRetorno);
     }
 
-    private OMElement efetuaDownload(final OMElement omElementConsulta) throws Exception {
-        final NfeDadosMsg dados = new NfeDadosMsg();
-        dados.setExtraElement(omElementConsulta);
-
+    private String efetuaDownload(final String xmlConsulta, final String chave) throws Exception {
         final String endpoint = NFAutorizador400.SP.getNfceDownloadXML(this.config.getAmbiente());
-        final NfceDownloadXMLResult resultado = new NFCeDownloadXMLStub(endpoint, this.config).nfceDownloadXML(dados);
-        return resultado.getExtraElement();
+        if (endpoint == null) {
+            throw new IllegalArgumentException("Nao foi possivel encontrar URL para NFCeDownloadXML, chave " + chave);
+        }
+
+        final String envelope = DFSoapEnvelope.envelopar(WSNFCeDownloadXML.NAMESPACE_WSDL, "nfeDadosMsg", xmlConsulta);
+        final String resposta = this.httpClient.postSoap(endpoint, WSNFCeDownloadXML.SOAP_ACTION, envelope);
+        return DFSoapEnvelope.desempacotar(resposta);
     }
 
     private NFCeDownloadXML gerarDadosDownloadXML(final String chave) {

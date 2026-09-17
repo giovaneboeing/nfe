@@ -797,7 +797,7 @@ public class WSFacade implements Closeable {
      */
     public NFCeListagemChavesRetorno consultaListagemChavesNFCe(final LocalDateTime dataHoraInicial, final LocalDateTime dataHoraFinal) throws Exception {
         if (this.wsNFCeListagemChaves == null) {
-            this.wsNFCeListagemChaves = new WSNFCeListagemChaves(this.config);
+            this.wsNFCeListagemChaves = new WSNFCeListagemChaves(this.config, this.httpClient);
         }
         return this.wsNFCeListagemChaves.consultaListagemChaves(dataHoraInicial, dataHoraFinal);
     }
@@ -812,7 +812,7 @@ public class WSFacade implements Closeable {
      */
     public NFCeDownloadXMLRetorno downloadXMLNFCe(final String chaveDeAcesso) throws Exception {
         if (this.wsNFCeDownloadXML == null) {
-            this.wsNFCeDownloadXML = new WSNFCeDownloadXML(this.config);
+            this.wsNFCeDownloadXML = new WSNFCeDownloadXML(this.config, this.httpClient);
         }
         return this.wsNFCeDownloadXML.downloadXML(chaveDeAcesso);
     }

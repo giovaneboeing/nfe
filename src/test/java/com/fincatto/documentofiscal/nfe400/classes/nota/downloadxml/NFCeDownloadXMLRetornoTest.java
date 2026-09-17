@@ -2,8 +2,8 @@ package com.fincatto.documentofiscal.nfe400.classes.nota.downloadxml;
 
 import com.fincatto.documentofiscal.DFAmbiente;
 import com.fincatto.documentofiscal.utils.DFPersister;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class NFCeDownloadXMLRetornoTest {
 
@@ -11,28 +11,28 @@ public class NFCeDownloadXMLRetornoTest {
     public void deveObterVersaoComoFoiSetado() {
         final NFCeDownloadXMLRetorno retorno = new NFCeDownloadXMLRetorno();
         retorno.setVersao("1.00");
-        Assert.assertEquals("1.00", retorno.getVersao());
+        Assertions.assertEquals("1.00", retorno.getVersao());
     }
 
     @Test
     public void deveObterAmbienteComoFoiSetado() {
         final NFCeDownloadXMLRetorno retorno = new NFCeDownloadXMLRetorno();
         retorno.setAmbiente(DFAmbiente.HOMOLOGACAO);
-        Assert.assertEquals(DFAmbiente.HOMOLOGACAO, retorno.getAmbiente());
+        Assertions.assertEquals(DFAmbiente.HOMOLOGACAO, retorno.getAmbiente());
     }
 
     @Test
     public void deveObterStatusComoFoiSetado() {
         final NFCeDownloadXMLRetorno retorno = new NFCeDownloadXMLRetorno();
         retorno.setStatus("200");
-        Assert.assertEquals("200", retorno.getStatus());
+        Assertions.assertEquals("200", retorno.getStatus());
     }
 
     @Test
     public void deveObterMotivoComoFoiSetado() {
         final NFCeDownloadXMLRetorno retorno = new NFCeDownloadXMLRetorno();
         retorno.setMotivo("Consulta realizada com sucesso");
-        Assert.assertEquals("Consulta realizada com sucesso", retorno.getMotivo());
+        Assertions.assertEquals("Consulta realizada com sucesso", retorno.getMotivo());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class NFCeDownloadXMLRetornoTest {
         final NFCeDownloadXMLRetorno retorno = new NFCeDownloadXMLRetorno();
         final NFCeDownloadXMLRetornoProc proc = new NFCeDownloadXMLRetornoProc();
         retorno.setProc(proc);
-        Assert.assertEquals(proc, retorno.getProc());
+        Assertions.assertEquals(proc, retorno.getProc());
     }
 
     @Test
@@ -55,10 +55,10 @@ public class NFCeDownloadXMLRetornoTest {
 
         final NFCeDownloadXMLRetorno retorno = new DFPersister().read(NFCeDownloadXMLRetorno.class, xml);
 
-        Assert.assertNotNull(retorno);
-        Assert.assertEquals("205", retorno.getStatus());
-        Assert.assertEquals("Rejeicao: Chave nao encontrada", retorno.getMotivo());
-        Assert.assertNull(retorno.getProc());
+        Assertions.assertNotNull(retorno);
+        Assertions.assertEquals("205", retorno.getStatus());
+        Assertions.assertEquals("Rejeicao: Chave nao encontrada", retorno.getMotivo());
+        Assertions.assertNull(retorno.getProc());
     }
 
     @Test
@@ -79,11 +79,11 @@ public class NFCeDownloadXMLRetornoTest {
 
         final NFCeDownloadXMLRetorno retorno = new DFPersister().read(NFCeDownloadXMLRetorno.class, xml);
 
-        Assert.assertNotNull(retorno);
-        Assert.assertNotNull(retorno.getProc());
-        Assert.assertNotNull(retorno.getProc().getNfeProc());
-        Assert.assertEquals("135260000000010", retorno.getProc().getNfeProc().getNumeroProtocolo());
-        Assert.assertEquals("2026-07-21T15:00:00-03:00", retorno.getProc().getNfeProc().getDataHoraInclusao());
-        Assert.assertNull(retorno.getProc().getNfeProc().getNota());
+        Assertions.assertNotNull(retorno);
+        Assertions.assertNotNull(retorno.getProc());
+        Assertions.assertNotNull(retorno.getProc().getNfeProc());
+        Assertions.assertEquals("135260000000010", retorno.getProc().getNfeProc().getNumeroProtocolo());
+        Assertions.assertEquals("2026-07-21T15:00:00-03:00", retorno.getProc().getNfeProc().getDataHoraInclusao());
+        Assertions.assertNull(retorno.getProc().getNfeProc().getNota());
     }
 }

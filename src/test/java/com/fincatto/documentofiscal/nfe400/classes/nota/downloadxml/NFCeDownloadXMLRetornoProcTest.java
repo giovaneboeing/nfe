@@ -1,7 +1,7 @@
 package com.fincatto.documentofiscal.nfe400.classes.nota.downloadxml;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class NFCeDownloadXMLRetornoProcTest {
         final NFCeDownloadXMLRetornoProc proc = new NFCeDownloadXMLRetornoProc();
         final NFCeDownloadXMLRetornoNfeProc nfeProc = new NFCeDownloadXMLRetornoNfeProc();
         proc.setNfeProc(nfeProc);
-        Assert.assertEquals(nfeProc, proc.getNfeProc());
+        Assertions.assertEquals(nfeProc, proc.getNfeProc());
     }
 
     @Test
@@ -22,6 +22,6 @@ public class NFCeDownloadXMLRetornoProcTest {
         final List<NFCeDownloadXMLRetornoProcEventoNFe> eventos = new ArrayList<>();
         eventos.add(new NFCeDownloadXMLRetornoProcEventoNFe());
         proc.setProcEventoNFe(eventos);
-        Assert.assertEquals(eventos, proc.getProcEventoNFe());
+        Assertions.assertEquals(eventos, proc.getProcEventoNFe());
     }
 }

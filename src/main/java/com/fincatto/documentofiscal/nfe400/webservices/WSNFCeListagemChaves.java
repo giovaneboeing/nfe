@@ -5,11 +5,8 @@ import com.fincatto.documentofiscal.nfe.NFeConfig;
 import com.fincatto.documentofiscal.nfe400.classes.NFAutorizador400;
 import com.fincatto.documentofiscal.nfe400.classes.nota.listagemchaves.NFCeListagemChaves;
 import com.fincatto.documentofiscal.nfe400.classes.nota.listagemchaves.NFCeListagemChavesRetorno;
-import com.fincatto.documentofiscal.nfe400.webservices.gerado.NFCeListagemChavesStub;
-import com.fincatto.documentofiscal.nfe400.webservices.gerado.NFCeListagemChavesStub.NfeDadosMsg;
-import com.fincatto.documentofiscal.nfe400.webservices.gerado.NFCeListagemChavesStub.NfceListagemChavesResult;
-import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.util.AXIOMUtil;
+import com.fincatto.documentofiscal.utils.DFHttpClient;
+import com.fincatto.documentofiscal.utils.DFSoapEnvelope;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,29 +14,35 @@ import java.time.LocalDateTime;
 class WSNFCeListagemChaves implements DFLog {
 
     private static final BigDecimal VERSAO_LEIAUTE = new BigDecimal("1.00");
+    private static final String NAMESPACE_WSDL = "http://www.portalfiscal.inf.br/nfe/wsdl/NFCeListagemChaves";
+    private static final String SOAP_ACTION = WSNFCeListagemChaves.NAMESPACE_WSDL + "/nfceListagemChaves";
     private final NFeConfig config;
+    private final DFHttpClient httpClient;
 
-    WSNFCeListagemChaves(final NFeConfig config) {
+    WSNFCeListagemChaves(final NFeConfig config, final DFHttpClient httpClient) {
         this.config = config;
+        this.httpClient = httpClient;
     }
 
     NFCeListagemChavesRetorno consultaListagemChaves(final LocalDateTime dataHoraInicial, final LocalDateTime dataHoraFinal) throws Exception {
-        final OMElement omElementConsulta = AXIOMUtil.stringToOM(this.gerarDadosListagemChaves(dataHoraInicial, dataHoraFinal).toString());
-        this.getLogger().debug(omElementConsulta.toString());
+        final String xmlConsulta = this.gerarDadosListagemChaves(dataHoraInicial, dataHoraFinal).toString();
+        this.getLogger().debug(xmlConsulta);
 
-        final OMElement omElementRetorno = this.efetuaConsulta(omElementConsulta);
-        this.getLogger().debug(omElementRetorno.toString());
+        final String xmlRetorno = this.efetuaConsulta(xmlConsulta);
+        this.getLogger().debug(xmlRetorno);
 
-        return this.config.getPersister().read(NFCeListagemChavesRetorno.class, omElementRetorno.toString());
+        return this.config.getPersister().read(NFCeListagemChavesRetorno.class, xmlRetorno);
     }
 
-    private OMElement efetuaConsulta(final OMElement omElementConsulta) throws Exception {
-        final NfeDadosMsg dados = new NfeDadosMsg();
-        dados.setExtraElement(omElementConsulta);
-
+    private String efetuaConsulta(final String xmlConsulta) throws Exception {
         final String endpoint = NFAutorizador400.SP.getNfceListagemChaves(this.config.getAmbiente());
-        final NfceListagemChavesResult resultado = new NFCeListagemChavesStub(endpoint, this.config).nfceListagemChaves(dados);
-        return resultado.getExtraElement();
+        if (endpoint == null) {
+            throw new IllegalArgumentException("Nao foi possivel encontrar URL para NFCeListagemChaves");
+        }
+
+        final String envelope = DFSoapEnvelope.envelopar(WSNFCeListagemChaves.NAMESPACE_WSDL, "nfeDadosMsg", xmlConsulta);
+        final String resposta = this.httpClient.postSoap(endpoint, WSNFCeListagemChaves.SOAP_ACTION, envelope);
+        return DFSoapEnvelope.desempacotar(resposta);
     }
 
     private NFCeListagemChaves gerarDadosListagemChaves(final LocalDateTime dataHoraInicial, final LocalDateTime dataHoraFinal) {
