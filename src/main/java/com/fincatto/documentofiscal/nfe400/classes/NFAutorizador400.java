@@ -103,16 +103,6 @@ public enum NFAutorizador400 {
         }
 
         @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
         public DFUnidadeFederativa[] getUFs() {
             return new DFUnidadeFederativa[]{DFUnidadeFederativa.AM};
         }
@@ -196,16 +186,6 @@ public enum NFAutorizador400 {
         @Override
         public String getNFeDistribuicaoDFe(final DFAmbiente ambiente) {
             return DFAmbiente.HOMOLOGACAO.equals(ambiente) ? "https://hom1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx" : "https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx";
-        }
-
-        @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
         }
 
         @Override
@@ -299,16 +279,6 @@ public enum NFAutorizador400 {
         }
 
         @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
         public DFUnidadeFederativa[] getUFs() {
             return new DFUnidadeFederativa[]{DFUnidadeFederativa.BA};
         }
@@ -392,16 +362,6 @@ public enum NFAutorizador400 {
         @Override
         public String getNFeDistribuicaoDFe(final DFAmbiente ambiente) {
             throw new UnsupportedOperationException("Nao suportado ainda");
-        }
-
-        @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
         }
 
         @Override
@@ -491,16 +451,6 @@ public enum NFAutorizador400 {
         }
 
         @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
         public DFUnidadeFederativa[] getUFs() {
             return new DFUnidadeFederativa[]{DFUnidadeFederativa.GO};
         }
@@ -584,16 +534,6 @@ public enum NFAutorizador400 {
         @Override
         public String getNFeDistribuicaoDFe(final DFAmbiente ambiente) {
             throw new UnsupportedOperationException("Nao suportado ainda");
-        }
-
-        @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
         }
 
         @Override
@@ -683,16 +623,6 @@ public enum NFAutorizador400 {
         }
 
         @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
         public DFUnidadeFederativa[] getUFs() {
             return new DFUnidadeFederativa[]{DFUnidadeFederativa.MG};
         }
@@ -779,16 +709,6 @@ public enum NFAutorizador400 {
         }
 
         @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
         public DFUnidadeFederativa[] getUFs() {
             return new DFUnidadeFederativa[]{DFUnidadeFederativa.MS};
         }
@@ -872,16 +792,6 @@ public enum NFAutorizador400 {
         @Override
         public String getNFeDistribuicaoDFe(final DFAmbiente ambiente) {
             throw new UnsupportedOperationException("Nao suportado ainda");
-        }
-
-        @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
         }
 
         @Override
@@ -972,16 +882,6 @@ public enum NFAutorizador400 {
         }
 
         @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
         public DFUnidadeFederativa[] getUFs() {
             return new DFUnidadeFederativa[]{DFUnidadeFederativa.PE};
         }
@@ -1068,16 +968,6 @@ public enum NFAutorizador400 {
         }
 
         @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
         public DFUnidadeFederativa[] getUFs() {
             return new DFUnidadeFederativa[]{DFUnidadeFederativa.PR};
         }
@@ -1161,16 +1051,6 @@ public enum NFAutorizador400 {
         @Override
         public String getNFeDistribuicaoDFe(final DFAmbiente ambiente) {
             throw new UnsupportedOperationException("Nao suportado ainda");
-        }
-
-        @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
         }
 
         @Override
@@ -1356,16 +1236,6 @@ public enum NFAutorizador400 {
         }
 
         @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
         public DFUnidadeFederativa[] getUFs() {
             return new DFUnidadeFederativa[]{DFUnidadeFederativa.AC, DFUnidadeFederativa.AL, DFUnidadeFederativa.AP, DFUnidadeFederativa.DF, DFUnidadeFederativa.ES, DFUnidadeFederativa.PA, DFUnidadeFederativa.PB, DFUnidadeFederativa.PI, DFUnidadeFederativa.RJ, DFUnidadeFederativa.RN, DFUnidadeFederativa.RO, DFUnidadeFederativa.RR, DFUnidadeFederativa.SC, DFUnidadeFederativa.SE, DFUnidadeFederativa.TO};
         }
@@ -1449,16 +1319,6 @@ public enum NFAutorizador400 {
         @Override
         public String getNFeDistribuicaoDFe(final DFAmbiente ambiente) {
             throw new UnsupportedOperationException("Nao suportado ainda");
-        }
-
-        @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
         }
 
         @Override
@@ -1564,16 +1424,6 @@ public enum NFAutorizador400 {
         }
 
         @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
         public DFUnidadeFederativa[] getUFs() {
             return new DFUnidadeFederativa[0];
         }
@@ -1660,16 +1510,6 @@ public enum NFAutorizador400 {
         }
 
         @Override
-        public String getNfceListagemChaves(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
-        public String getNfceDownloadXML(final DFAmbiente ambiente) {
-            throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
-        }
-
-        @Override
         public DFUnidadeFederativa[] getUFs() {
             return new DFUnidadeFederativa[]{};
         }
@@ -1707,9 +1547,13 @@ public enum NFAutorizador400 {
 
     public abstract String getNFeDistribuicaoDFe(final DFAmbiente ambiente);
 
-    public abstract String getNfceListagemChaves(final DFAmbiente ambiente);
+    public String getNfceListagemChaves(final DFAmbiente ambiente) {
+        throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
+    }
 
-    public abstract String getNfceDownloadXML(final DFAmbiente ambiente);
+    public String getNfceDownloadXML(final DFAmbiente ambiente) {
+        throw new UnsupportedOperationException("Servico exclusivo da SEFAZ-SP");
+    }
 
     public abstract DFUnidadeFederativa[] getUFs();
 
