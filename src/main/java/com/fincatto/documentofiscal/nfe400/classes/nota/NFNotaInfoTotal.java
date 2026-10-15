@@ -10,7 +10,10 @@ import org.simpleframework.xml.Element;
  */
 public class NFNotaInfoTotal extends DFBase {
     private static final long serialVersionUID = 4579495471129802055L;
-    
+
+    @Element(name = "vProdLiqTot", required = false)
+    private String valorTotalLiquidoProdutos; // W01a
+
     @Element(name = "ICMSTot")
     private NFNotaInfoICMSTotal icmsTotal;
 
@@ -75,6 +78,17 @@ public class NFNotaInfoTotal extends DFBase {
 
     public void setVNFTot(BigDecimal vNFTot) {
         this.vNFTot = DFBigDecimalValidador.tamanho13Com2CasasDecimais(vNFTot, "Valor total da NF-e com IBS / CBS / IS");
+    }
+
+    public String getValorTotalLiquidoProdutos() {
+        return valorTotalLiquidoProdutos;
+    }
+
+    /**
+     * Soma dos valores liquidos dos produtos ou servicos, sem a inclusao de tributos (NT 2026.008).
+     */
+    public void setValorTotalLiquidoProdutos(final BigDecimal valorTotalLiquidoProdutos) {
+        this.valorTotalLiquidoProdutos = DFBigDecimalValidador.tamanho13Com2CasasDecimais(valorTotalLiquidoProdutos, "Valor Total Liquido dos Produtos");
     }
     
 }

@@ -72,6 +72,9 @@ public class NFNotaInfoItemImpostoICMS extends DFBase {
     @Element(name = "ICMSSN900", required = false)
     private NFNotaInfoItemImpostoICMSSN900 icmssn900;
 
+    @Element(name = "ICMSPrevistoPagtoAntecip", required = false)
+    private NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip icmsPrevistoPagtoAntecip; // NB01
+
     public void setIcms00(final NFNotaInfoItemImpostoICMS00 icms00) {
         this.validaApenasUmSelecionado();
         this.icms00 = icms00;
@@ -270,5 +273,17 @@ public class NFNotaInfoItemImpostoICMS extends DFBase {
 
     public NFNotaInfoItemImpostoICMSSN900 getIcmssn900() {
         return this.icmssn900;
+    }
+
+    /**
+     * Grupo do ICMS previsto no pagamento antecipado (NT 2026.008). Acompanha o grupo de ICMS selecionado,
+     * por isso nao participa da validacao de apenas um selecionado.
+     */
+    public void setIcmsPrevistoPagtoAntecip(final NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip icmsPrevistoPagtoAntecip) {
+        this.icmsPrevistoPagtoAntecip = icmsPrevistoPagtoAntecip;
+    }
+
+    public NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip getIcmsPrevistoPagtoAntecip() {
+        return this.icmsPrevistoPagtoAntecip;
     }
 }
