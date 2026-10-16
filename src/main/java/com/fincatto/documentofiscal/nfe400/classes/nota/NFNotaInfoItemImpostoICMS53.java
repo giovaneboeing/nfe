@@ -35,6 +35,12 @@ public class NFNotaInfoItemImpostoICMS53 extends DFBase {
     @Element(name = "vICMSMono", required = false)
     private String valorTributo;
 
+    @Element(name = "qBCMonoDif", required = false)
+    private String quantidadeBaseCalculoDiferida;
+
+    @Element(name = "adRemICMSDif", required = false)
+    private String percentualAliquotaDiferida;
+
     public void setOrigem(final NFOrigem origem) {
         this.origem = origem;
     }
@@ -100,6 +106,22 @@ public class NFNotaInfoItemImpostoICMS53 extends DFBase {
 
     public String getValorTributo() {
         return valorTributo;
+    }
+
+    public void setQuantidadeBaseCalculoDiferida(BigDecimal quantidadeBaseCalculoDiferida) {
+        this.quantidadeBaseCalculoDiferida = DFBigDecimalValidador.tamanho15comAte4CasasDecimais(quantidadeBaseCalculoDiferida, "Quantidade tributada diferida");
+    }
+
+    public String getQuantidadeBaseCalculoDiferida() {
+        return quantidadeBaseCalculoDiferida;
+    }
+
+    public void setPercentualAliquotaDiferida(BigDecimal percentualAliquotaDiferida) {
+        this.percentualAliquotaDiferida = DFBigDecimalValidador.tamanho7ComAte4CasasDecimais(percentualAliquotaDiferida, "Alíquota ad rem do imposto diferido");
+    }
+
+    public String getPercentualAliquotaDiferida() {
+        return percentualAliquotaDiferida;
     }
 
 }

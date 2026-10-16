@@ -48,6 +48,12 @@ public class NFNotaInfoIdentificacao extends DFBase {
     @Element(name = "dhSaiEnt", required = false)
     private ZonedDateTime dataHoraSaidaOuEntrada;
 
+    /**
+     * B10a - Data da previsão de entrega ou disponibilização do bem
+     */
+    @Element(name = "dPrevEntrega", required = false)
+    private LocalDate dataPrevistaEntrega;
+
     @Element(name = "tpNF")
     private NFTipo tipo;
 
@@ -110,12 +116,6 @@ public class NFNotaInfoIdentificacao extends DFBase {
     
     @Element(name = "gPagAntecipado", required = false)
     private NFNotaInfoIdentificacaoPagAntecipado gPagAntecipado; // BB01
-
-    /**
-     * B10a - Data da previsão de entrega ou disponibilização do bem
-     */
-    @Element(name = "dPrevEntrega", required = false)
-    private LocalDate dataPrevistaEntrega;
 
     public void setUf(final DFUnidadeFederativa uf) {
         this.uf = uf;

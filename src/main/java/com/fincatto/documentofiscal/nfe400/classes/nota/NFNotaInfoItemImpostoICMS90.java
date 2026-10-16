@@ -3,6 +3,7 @@ package com.fincatto.documentofiscal.nfe400.classes.nota;
 import com.fincatto.documentofiscal.DFBase;
 import com.fincatto.documentofiscal.nfe400.classes.*;
 import com.fincatto.documentofiscal.validadores.DFBigDecimalValidador;
+import com.fincatto.documentofiscal.validadores.DFStringValidador;
 import java.math.BigDecimal;
 import org.simpleframework.xml.Element;
 
@@ -25,8 +26,21 @@ public class NFNotaInfoItemImpostoICMS90 extends DFBase {
     @Element(name = "pRedBC", required = false)
     private String percentualReducaoBC;
 
+    @Element(name = "cBenefRBC", required = false)
+    private String codigoBeneficioFiscalRBC;
+
     @Element(name = "pICMS", required = false)
     private String percentualAliquota;
+
+    // grupo opcional do diferimento: vICMSOp, pDif e vICMSDif devem ser informados juntos
+    @Element(name = "vICMSOp", required = false)
+    private String valorICMSOperacao;
+
+    @Element(name = "pDif", required = false)
+    private String percentualDiferimento;
+
+    @Element(name = "vICMSDif", required = false)
+    private String valorICMSDiferimento;
 
     @Element(name = "vICMS", required = false)
     private String valorTributo;
@@ -39,6 +53,16 @@ public class NFNotaInfoItemImpostoICMS90 extends DFBase {
 
     @Element(name = "vFCP", required = false)
     private String valorFundoCombatePobreza;
+
+    // grupo opcional do diferimento do FCP: pFCPDif e vFCPDif devem ser informados juntos
+    @Element(name = "pFCPDif", required = false)
+    private String percentualDiferimentoFundoCombatePobreza;
+
+    @Element(name = "vFCPDif", required = false)
+    private String valorDiferimentoFundoCombatePobreza;
+
+    @Element(name = "vFCPEfet", required = false)
+    private String valorEfetivoFundoCombatePobreza;
 
     @Element(name = "modBCST", required = false)
     private NFNotaInfoItemModalidadeBCICMSST modalidadeBCICMSST;
@@ -73,14 +97,14 @@ public class NFNotaInfoItemImpostoICMS90 extends DFBase {
     @Element(name = "motDesICMS", required = false)
     private NFNotaMotivoDesoneracaoICMS desoneracao;
 
+    @Element(name = "indDeduzDeson", required = false)
+    private NFTipoDeducaoIcms indicaDeduzDesoneracao;
+
     @Element(name = "vICMSSTDeson", required = false)
     private String valorICMSSTDesonerado;
 
     @Element(name = "motDesICMSST", required = false)
     private NFNotaMotivoDesoneracaoICMS motivoDesoneracaoICMSST;
-
-    @Element(name = "indDeduzDeson", required = false)
-    private NFTipoDeducaoIcms indicaDeduzDesoneracao;
 
     public void setOrigem(final NFOrigem origem) {
         this.origem = origem;
@@ -278,5 +302,61 @@ public class NFNotaInfoItemImpostoICMS90 extends DFBase {
 
     public void setIndicaDeduzDesoneracao(NFTipoDeducaoIcms indicaDeduzDesoneracao) {
         this.indicaDeduzDesoneracao = indicaDeduzDesoneracao;
+    }
+
+    public String getCodigoBeneficioFiscalRBC() {
+        return codigoBeneficioFiscalRBC;
+    }
+
+    public void setCodigoBeneficioFiscalRBC(final String codigoBeneficioFiscalRBC) {
+        this.codigoBeneficioFiscalRBC = DFStringValidador.validador(codigoBeneficioFiscalRBC, "Codigo Beneficio Fiscal RBC ICMS90 Item", 10, false, false);
+    }
+
+    public String getValorICMSOperacao() {
+        return valorICMSOperacao;
+    }
+
+    public void setValorICMSOperacao(final BigDecimal valorICMSOperacao) {
+        this.valorICMSOperacao = DFBigDecimalValidador.tamanho15Com2CasasDecimais(valorICMSOperacao, "Valor ICMS Operacao ICMS90 Item");
+    }
+
+    public String getPercentualDiferimento() {
+        return percentualDiferimento;
+    }
+
+    public void setPercentualDiferimento(final BigDecimal percentualDiferimento) {
+        this.percentualDiferimento = DFBigDecimalValidador.tamanho7ComAte4CasasDecimais(percentualDiferimento, "Percentual Diferimento ICMS90 Item");
+    }
+
+    public String getValorICMSDiferimento() {
+        return valorICMSDiferimento;
+    }
+
+    public void setValorICMSDiferimento(final BigDecimal valorICMSDiferimento) {
+        this.valorICMSDiferimento = DFBigDecimalValidador.tamanho15Com2CasasDecimais(valorICMSDiferimento, "Valor ICMS Diferimento ICMS90 Item");
+    }
+
+    public String getPercentualDiferimentoFundoCombatePobreza() {
+        return percentualDiferimentoFundoCombatePobreza;
+    }
+
+    public void setPercentualDiferimentoFundoCombatePobreza(final BigDecimal percentualDiferimentoFundoCombatePobreza) {
+        this.percentualDiferimentoFundoCombatePobreza = DFBigDecimalValidador.tamanho7ComAte4CasasDecimais(percentualDiferimentoFundoCombatePobreza, "Percentual diferimento fundo combate pobreza ICMS90 Item");
+    }
+
+    public String getValorDiferimentoFundoCombatePobreza() {
+        return valorDiferimentoFundoCombatePobreza;
+    }
+
+    public void setValorDiferimentoFundoCombatePobreza(final BigDecimal valorDiferimentoFundoCombatePobreza) {
+        this.valorDiferimentoFundoCombatePobreza = DFBigDecimalValidador.tamanho15Com2CasasDecimais(valorDiferimentoFundoCombatePobreza, "Valor diferimento fundo combate pobreza ICMS90 Item");
+    }
+
+    public String getValorEfetivoFundoCombatePobreza() {
+        return valorEfetivoFundoCombatePobreza;
+    }
+
+    public void setValorEfetivoFundoCombatePobreza(final BigDecimal valorEfetivoFundoCombatePobreza) {
+        this.valorEfetivoFundoCombatePobreza = DFBigDecimalValidador.tamanho15Com2CasasDecimais(valorEfetivoFundoCombatePobreza, "Valor efetivo fundo combate pobreza ICMS90 Item");
     }
 }

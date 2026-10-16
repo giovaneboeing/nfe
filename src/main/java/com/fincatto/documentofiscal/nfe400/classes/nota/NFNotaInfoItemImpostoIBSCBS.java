@@ -42,11 +42,13 @@ public class NFNotaInfoItemImpostoIBSCBS extends DFBase {
     @Element(required = false)
     private NFNotaInfoItemImpostoIBSCBSTransfCred gTransfCred; // UB106
 
+    // ordem dos grupos abaixo conforme o XSD (TTribNFe): gAjusteCompet, gEstornoCred, gCredPresOper, gCredPresIBSZFM
+
     /**
-     * UB131 - Grupo para apropriação de crédito presumido de IBS sobre o saldo devedor na ZFM (art. 450, § 1º, LC 214/25)
+     * UB112 - Ajuste competência - apenas requerido quando ind_gAjusteCompet = 1
      */
-    @Element(required = false)
-    private NFNotaInfoItemImpostoIBSCBSCredPresIBSZFM gCredPresIBSZFM;
+    @Element(name = "gAjusteCompet", required = false)
+    private GrupoAjusteCompetencia grupoAjusteCompetencia;
 
     /**
      * UB116 - Estorno de crédito
@@ -61,10 +63,10 @@ public class NFNotaInfoItemImpostoIBSCBS extends DFBase {
     private NFNotaInfoItemImpostoIBSCBSGCredPresOper grupoCreditoPresumidoOperacao;
 
     /**
-     * UB112 - Ajuste competência - apenas requerido quando ind_gAjusteCompet = 1
+     * UB131 - Grupo para apropriação de crédito presumido de IBS sobre o saldo devedor na ZFM (art. 450, § 1º, LC 214/25)
      */
-    @Element(name = "gAjusteCompet", required = false)
-    private GrupoAjusteCompetencia grupoAjusteCompetencia;
+    @Element(required = false)
+    private NFNotaInfoItemImpostoIBSCBSCredPresIBSZFM gCredPresIBSZFM;
 
     public NFNotaInfoImpostoTributacaoIBSCBS getCst() {
         return cst;

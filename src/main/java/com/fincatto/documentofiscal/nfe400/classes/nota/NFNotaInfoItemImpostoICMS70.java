@@ -73,14 +73,14 @@ public class NFNotaInfoItemImpostoICMS70 extends DFBase {
     @Element(name = "motDesICMS", required = false)
     private NFNotaMotivoDesoneracaoICMS desoneracao;
 
+    @Element(name = "indDeduzDeson", required = false)
+    private NFTipoDeducaoIcms indicaDeduzDesoneracao;
+
     @Element(name = "vICMSSTDeson", required = false)
     private String valorICMSSTDesonerado;
 
     @Element(name = "motDesICMSST", required = false)
     private NFNotaMotivoDesoneracaoICMS motivoDesoneracaoICMSST;
-
-    @Element(name = "indDeduzDeson", required = false)
-    private NFTipoDeducaoIcms indicaDeduzDesoneracao;
 
     public void setOrigem(final NFOrigem origem) {
         this.origem = origem;
