@@ -27,6 +27,19 @@ public class NFNotaInfoItemImpostoIBSCBSMonofasia extends DFBase {
   @Element(required = false)
   private NFNotaInfoItemImpostoIBSCBSMonofasicaGMonoDif gMonoDif; // UB99
 
+  // leiaute reformulado (NT 2025.002 v1.50): substitui os grupos acima a partir da data de transicao
+  @Element(required = false)
+  private NFNotaInfoItemImpostoIBSCBSMonofasicaAdRem gIBSMonoAdRem; // UB85a
+
+  @Element(required = false)
+  private NFNotaInfoItemImpostoIBSCBSMonofasicaAdValorem gIBSMonoAdValorem; // UB90
+
+  @Element(required = false)
+  private NFNotaInfoItemImpostoIBSCBSMonofasicaAdRem gCBSMonoAdRem; // UB95a
+
+  @Element(required = false)
+  private NFNotaInfoItemImpostoIBSCBSMonofasicaAdValorem gCBSMonoAdValorem; // UB100
+
   // UB84 -x- Sequência XML
   @Element(required = true)
   private String vTotIBSMonoItem; // UB104
@@ -64,6 +77,38 @@ public class NFNotaInfoItemImpostoIBSCBSMonofasia extends DFBase {
 
   public void setgMonoDif(NFNotaInfoItemImpostoIBSCBSMonofasicaGMonoDif gMonoDif) {
     this.gMonoDif = gMonoDif;
+  }
+
+  public NFNotaInfoItemImpostoIBSCBSMonofasicaAdRem getgIBSMonoAdRem() {
+    return gIBSMonoAdRem;
+  }
+
+  public void setgIBSMonoAdRem(NFNotaInfoItemImpostoIBSCBSMonofasicaAdRem gIBSMonoAdRem) {
+    this.gIBSMonoAdRem = gIBSMonoAdRem;
+  }
+
+  public NFNotaInfoItemImpostoIBSCBSMonofasicaAdValorem getgIBSMonoAdValorem() {
+    return gIBSMonoAdValorem;
+  }
+
+  public void setgIBSMonoAdValorem(NFNotaInfoItemImpostoIBSCBSMonofasicaAdValorem gIBSMonoAdValorem) {
+    this.gIBSMonoAdValorem = gIBSMonoAdValorem;
+  }
+
+  public NFNotaInfoItemImpostoIBSCBSMonofasicaAdRem getgCBSMonoAdRem() {
+    return gCBSMonoAdRem;
+  }
+
+  public void setgCBSMonoAdRem(NFNotaInfoItemImpostoIBSCBSMonofasicaAdRem gCBSMonoAdRem) {
+    this.gCBSMonoAdRem = gCBSMonoAdRem;
+  }
+
+  public NFNotaInfoItemImpostoIBSCBSMonofasicaAdValorem getgCBSMonoAdValorem() {
+    return gCBSMonoAdValorem;
+  }
+
+  public void setgCBSMonoAdValorem(NFNotaInfoItemImpostoIBSCBSMonofasicaAdValorem gCBSMonoAdValorem) {
+    this.gCBSMonoAdValorem = gCBSMonoAdValorem;
   }
 
   public String getVTotIBSMonoItem() {

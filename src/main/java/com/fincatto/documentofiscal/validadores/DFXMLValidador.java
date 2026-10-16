@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.regex.Pattern;
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -15,6 +16,9 @@ public final class DFXMLValidador {
 
     private static final String PACOTE_NFE310 = "schemas/PL_008i2";
     private static final String PACOTE_NFE400 = "schemas/PL_010e_NT2025.002_v1.01";
+    // NT 2025.002 v1.50: so aceita o leiaute reformulado da tributacao monofasica (gIBSCBSMono)
+    private static final String PACOTE_NFE400_MONOFASIA_REFORMULADA = "schemas/PL_010f_v1.04";
+    private static final Pattern GRUPO_MONOFASIA_REFORMULADA = Pattern.compile("<(\\w+:)?g(IBS|CBS)MonoAd(Rem|Valorem)[\\s/>]");
     private static final String PACOTE_MDFE300 = "schemas/PL_MDFe_300b_NT012025_1.03";
     private static final String PACOTE_CTE300 = "schemas/PL_CTe_300a_NT2022.001";
     private static final String PACOTE_CTE400 = "schemas/PL_CTe_400_NT2026.002_RTC_1.01";
@@ -85,7 +89,15 @@ public final class DFXMLValidador {
     }
 
     public static boolean valida400(final String xml, final String xsd) throws IOException, SAXException, URISyntaxException {
-        return DFXMLValidador.valida(xml, DFXMLValidador.PACOTE_NFE400, xsd);
+        return DFXMLValidador.valida(xml, DFXMLValidador.pacoteNfe400(xml), xsd);
+    }
+
+    /**
+     * Durante a transicao da NT 2025.002 v1.50 coexistem dois leiautes da tributacao monofasica,
+     * cada um aceito por um pacote de schemas: o pacote e escolhido pelo conteudo do XML.
+     */
+    static String pacoteNfe400(final String xml) {
+        return GRUPO_MONOFASIA_REFORMULADA.matcher(xml).find() ? PACOTE_NFE400_MONOFASIA_REFORMULADA : PACOTE_NFE400;
     }
 
     public static boolean validaLote400(final String arquivoXML) throws Exception {
