@@ -4,6 +4,8 @@ import com.fincatto.documentofiscal.nfe400.FabricaDeObjetosFake;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 public class NFNotaInfoItemImpostoICMSTest {
 
     @Test
@@ -242,6 +244,38 @@ public class NFNotaInfoItemImpostoICMSTest {
             Assertions.fail("So pode permitir um icms cadastrado");
         } catch (final IllegalStateException ignored) {
         }
+        try {
+            icms.setIcmsPrevistoPagtoAntecip(new NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip());
+            Assertions.fail("So pode permitir um icms cadastrado");
+        } catch (final IllegalStateException ignored) {
+        }
+    }
+
+    @Test
+    public void deveObterIcmsPrevistoPagtoAntecipComoFoiSetado() {
+        final NFNotaInfoItemImpostoICMS icms = new NFNotaInfoItemImpostoICMS();
+        final NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip icmsSetado = new NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip();
+        icms.setIcmsPrevistoPagtoAntecip(icmsSetado);
+        Assertions.assertEquals(icmsSetado, icms.getIcmsPrevistoPagtoAntecip());
+        Assertions.assertTrue(icms.isSelecionado());
+    }
+
+    @Test
+    public void naoDevePermitirIcmsDoCstJuntoComIcmsPrevistoPagtoAntecip() {
+        final NFNotaInfoItemImpostoICMS icms = new NFNotaInfoItemImpostoICMS();
+        icms.setIcmsPrevistoPagtoAntecip(new NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip());
+        Assertions.assertThrows(IllegalStateException.class, () -> icms.setIcms00(new NFNotaInfoItemImpostoICMS00()));
+    }
+
+    @Test
+    public void deveGerarXMLSomenteComGrupoIcmsPrevistoPagtoAntecip() {
+        final NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip previsto = new NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip();
+        previsto.setValorICMSPrevisto(BigDecimal.ZERO);
+        final NFNotaInfoItemImpostoICMS icms = new NFNotaInfoItemImpostoICMS();
+        icms.setIcmsPrevistoPagtoAntecip(previsto);
+
+        final String xmlEsperado = "<NFNotaInfoItemImpostoICMS><ICMSPrevistoPagtoAntecip><vICMSPrevisto>0.00</vICMSPrevisto></ICMSPrevistoPagtoAntecip></NFNotaInfoItemImpostoICMS>";
+        Assertions.assertEquals(xmlEsperado, icms.toString());
     }
 
     @Test

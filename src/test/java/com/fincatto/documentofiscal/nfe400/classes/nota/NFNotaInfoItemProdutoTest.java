@@ -1641,4 +1641,33 @@ public class NFNotaInfoItemProdutoTest {
         final String xmlEsperado = "<NFNotaInfoItemProduto><cProd>ohVRInAS7jw8LNDP4WWjssSjBHK8nJRERnAeRMcsUokF3YItT93fBto3zZcq</cProd><cEAN>36811963532505</cEAN><xProd>OBS0ztekCoG0DSSVcQwPKRV2fV842Pye7mED13P4zoDczcXi4AMNvQ7BKBLnHtLc2Z9fuIY1pcKmXSK1IJQSLEs5QWvVGyC74DyJuIM0X7L0cqWPZQii5JtP</xProd><NCM>99999999</NCM><NVE>AZ0123</NVE><CEST>9999999</CEST><EXTIPI>999</EXTIPI><CFOP>1302</CFOP><uCom>Bta64y</uCom><qCom>9999999999.9999</qCom><vUnCom>9999999999.9999999999</vUnCom><vProd>999999999999.99</vProd><cEANTrib>36811963532505</cEANTrib><uTrib>7wqG4h</uTrib><qTrib>9999999999.9999</qTrib><vUnTrib>9999999999.9999999999</vUnTrib><vFrete>999999999999.99</vFrete><vSeg>999999999999.99</vSeg><vDesc>999999999999.99</vDesc><vOutro>999999999999.99</vOutro><indTot>1</indTot><DI><nDI>ZRJihqWLyHnb</nDI><dDI>2014-02-02</dDI><xLocDesemb>kiVfWKB94ggsrWND0XBXwEjJkoiTXhkmX9qKGKzjpnEHHp852bDkYeEUkzpU</xLocDesemb><UFDesemb>RS</UFDesemb><dDesemb>2014-01-01</dDesemb><tpViaTransp>4</tpViaTransp><vAFRMM>999999999999.99</vAFRMM><tpIntermedio>3</tpIntermedio><CNPJ>12345678901234</CNPJ><UFTerceiro>RS</UFTerceiro><cExportador>E9jBqM65b0MiCiRnYil203iNGJOSZs8iU1KGmQsj2N0kw6QMuvhbsQosFGcU</cExportador><adi><nAdicao>999</nAdicao><nSeqAdic>999</nSeqAdic><cFabricante>sA2FBRFMMNgF1AKRDDXYOlc3zGvzEc69l6zQ5O5uAUe82XZ3szQfw01DW0Ki</cFabricante><vDescDI>999999999999.99</vDescDI><nDraw>99999999999</nDraw></adi></DI><xPed>NNxQ9nrQ3HCe5Mc</xPed><nItemPed>999999</nItemPed><rastro><nLote>yq50jVDZsvQVNuWoS45U</nLote><qLote>9999999.999</qLote><dFab>2014-01-01</dFab><dVal>2015-01-01</dVal></rastro><med><cProdANVISA>1234567890123</cProdANVISA><vPMC>999999999999.99</vPMC></med></NFNotaInfoItemProduto>";
         Assertions.assertEquals(xmlEsperado, FabricaDeObjetosFake.getNFNotaInfoItemProduto().toString());
     }
+
+    @Test
+    public void naoDevePermitirValorUnitarioLiquidoComTamanhoInvalido() {
+        Assertions.assertThrows(NumberFormatException.class, () -> new NFNotaInfoItemProduto().setValorUnitarioLiquido(new BigDecimal("100000000000")));
+        Assertions.assertThrows(NumberFormatException.class, () -> new NFNotaInfoItemProduto().setValorUnitarioLiquido(new BigDecimal("1.12345678901")));
+    }
+
+    @Test
+    public void naoDevePermitirValorTotalLiquidoComTamanhoInvalido() {
+        Assertions.assertThrows(NumberFormatException.class, () -> new NFNotaInfoItemProduto().setValorTotalLiquido(new BigDecimal("10000000000000")));
+    }
+
+    @Test
+    public void devePermitirValoresLiquidosNulos() {
+        final String xml = FabricaDeObjetosFake.getNFNotaInfoItemProduto().toString();
+        Assertions.assertFalse(xml.contains("vUnComLiq"));
+        Assertions.assertFalse(xml.contains("vProdLiq"));
+    }
+
+    @Test
+    public void deveGerarValoresLiquidosLogoAposValorTotalBruto() {
+        final NFNotaInfoItemProduto produto = FabricaDeObjetosFake.getNFNotaInfoItemProduto();
+        produto.setValorUnitarioLiquido(new BigDecimal("8.1234567891"));
+        produto.setValorTotalLiquido(new BigDecimal("81.23"));
+
+        Assertions.assertEquals("8.1234567891", produto.getValorUnitarioLiquido());
+        Assertions.assertEquals("81.23", produto.getValorTotalLiquido());
+        Assertions.assertTrue(produto.toString().contains("<vProd>999999999999.99</vProd><vUnComLiq>8.1234567891</vUnComLiq><vProdLiq>81.23</vProdLiq><cEANTrib>"));
+    }
 }

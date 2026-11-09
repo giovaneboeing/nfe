@@ -72,6 +72,9 @@ public class NFNotaInfoItemImpostoICMS extends DFBase {
     @Element(name = "ICMSSN900", required = false)
     private NFNotaInfoItemImpostoICMSSN900 icmssn900;
 
+    @Element(name = "ICMSPrevistoPagtoAntecip", required = false)
+    private NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip icmsPrevistoPagtoAntecip; // NB01 - NT 2026.008
+
     public void setIcms00(final NFNotaInfoItemImpostoICMS00 icms00) {
         this.validaApenasUmSelecionado();
         this.icms00 = icms00;
@@ -177,6 +180,15 @@ public class NFNotaInfoItemImpostoICMS extends DFBase {
         this.icmssn900 = icmssn900;
     }
 
+    /**
+     * Grupo do ICMS Previsto no Pagamento Antecipado (NB01 - NT 2026.008).<br>
+     * E uma das opcoes do grupo ICMS: substitui o grupo do CST/CSOSN, nao coexiste com ele.
+     */
+    public void setIcmsPrevistoPagtoAntecip(final NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip icmsPrevistoPagtoAntecip) {
+        this.validaApenasUmSelecionado();
+        this.icmsPrevistoPagtoAntecip = icmsPrevistoPagtoAntecip;
+    }
+
     private void validaApenasUmSelecionado() {
         if (this.isSelecionado) {
             throw new IllegalStateException("Ja possui ICMS selecionado");
@@ -270,5 +282,9 @@ public class NFNotaInfoItemImpostoICMS extends DFBase {
 
     public NFNotaInfoItemImpostoICMSSN900 getIcmssn900() {
         return this.icmssn900;
+    }
+
+    public NFNotaInfoItemImpostoICMSPrevistoPagtoAntecip getIcmsPrevistoPagtoAntecip() {
+        return this.icmsPrevistoPagtoAntecip;
     }
 }
