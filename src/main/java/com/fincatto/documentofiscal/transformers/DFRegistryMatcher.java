@@ -296,6 +296,8 @@ public class DFRegistryMatcher extends RegistryMatcher {
     super.bind(com.fincatto.documentofiscal.nfe400.classes.NFNotaInfoImpostoTributacaoIBSCBS.class, new com.fincatto.documentofiscal.nfe400.transformers.NFNotaInfoImpostoTributacaoIBSCBSTransformer());
     super.bind(com.fincatto.documentofiscal.nfe400.classes.NFDebito.class, new com.fincatto.documentofiscal.nfe400.transformers.NFDebitoTransformer());
     super.bind(com.fincatto.documentofiscal.nfe400.classes.NFCredito.class, new com.fincatto.documentofiscal.nfe400.transformers.NFCreditoTransformer());
+    super.bind(com.fincatto.documentofiscal.nfe400.classes.NFTipoRegimeIBSCBS.class, new com.fincatto.documentofiscal.nfe400.transformers.NFTipoRegimeIBSCBSTransformer());
+    super.bind(com.fincatto.documentofiscal.nfe400.classes.NFCodigoAtividadeSimplesNacional.class, new com.fincatto.documentofiscal.nfe400.transformers.NFCodigoAtividadeSimplesNacionalTransformer());
 
     // CTe
     super.bind(CTModal.class, new CTModalTransformer());

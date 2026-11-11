@@ -3,6 +3,7 @@ package com.fincatto.documentofiscal.nfe400.classes.nota;
 import com.fincatto.documentofiscal.DFBase;
 import com.fincatto.documentofiscal.nfe400.classes.NFEndereco;
 import com.fincatto.documentofiscal.nfe400.classes.NFRegimeTributario;
+import com.fincatto.documentofiscal.nfe400.classes.NFTipoRegimeIBSCBS;
 import com.fincatto.documentofiscal.validadores.DFStringValidador;
 import org.apache.commons.lang3.StringUtils;
 import org.simpleframework.xml.Element;
@@ -39,6 +40,9 @@ public class NFNotaInfoEmitente extends DFBase {
     
     @Element(name = "CRT")
     private NFRegimeTributario regimeTributario;
+
+    @Element(name = "tpRegimeIBSCBS", required = false)
+    private NFTipoRegimeIBSCBS tipoRegimeIBSCBS; // C21a - NT 2026.005
 
     public void setCnpj(final String cnpj) {
         if (this.cpf != null && cnpj != null) {
@@ -94,6 +98,14 @@ public class NFNotaInfoEmitente extends DFBase {
         this.regimeTributario = regimeTributario;
     }
 
+    /**
+     * Tipo de Regime de Apuracao do IBS e da CBS (tpRegimeIBSCBS - C21a - NT 2026.005).<br>
+     * Informar somente para Simples Nacional com regime regular do IBS/CBS (1) ou Regime Normal com opcao pendente pelo Simples Nacional (2, 3 ou 4).
+     */
+    public void setTipoRegimeIBSCBS(final NFTipoRegimeIBSCBS tipoRegimeIBSCBS) {
+        this.tipoRegimeIBSCBS = tipoRegimeIBSCBS;
+    }
+
     public String getCnpj() {
         return this.cnpj;
     }
@@ -147,5 +159,9 @@ public class NFNotaInfoEmitente extends DFBase {
 
     public NFRegimeTributario getRegimeTributario() {
         return this.regimeTributario;
+    }
+
+    public NFTipoRegimeIBSCBS getTipoRegimeIBSCBS() {
+        return this.tipoRegimeIBSCBS;
     }
 }

@@ -1,6 +1,7 @@
 package com.fincatto.documentofiscal.nfe400.classes.nota;
 
 import com.fincatto.documentofiscal.nfe400.FabricaDeObjetosFake;
+import com.fincatto.documentofiscal.nfe400.classes.NFCodigoAtividadeSimplesNacional;
 import com.fincatto.documentofiscal.nfe400.classes.NFProdutoCompoeValorNota;
 import com.fincatto.documentofiscal.utils.DFPersister;
 import org.junit.jupiter.api.Assertions;
@@ -1669,5 +1670,37 @@ public class NFNotaInfoItemProdutoTest {
         Assertions.assertEquals("8.1234567891", produto.getValorUnitarioLiquido());
         Assertions.assertEquals("81.23", produto.getValorTotalLiquido());
         Assertions.assertTrue(produto.toString().contains("<vProd>999999999999.99</vProd><vUnComLiq>8.1234567891</vUnComLiq><vProdLiq>81.23</vProdLiq><cEANTrib>"));
+    }
+
+    @Test
+    public void naoDeveGerarCodigoAtividadeSimplesNacionalQuandoNulo() {
+        Assertions.assertNull(FabricaDeObjetosFake.getNFNotaInfoItemProduto().getCodigoAtividadeSimplesNacional());
+        Assertions.assertFalse(FabricaDeObjetosFake.getNFNotaInfoItemProduto().toString().contains("cAtivSN"));
+    }
+
+    @Test
+    public void deveGerarCodigoAtividadeSimplesNacionalAposIndicadorBemMovelUsado() {
+        final NFNotaInfoItemProduto produto = FabricaDeObjetosFake.getNFNotaInfoItemProduto();
+        produto.setIndicadorBemMovelUsado("1");
+        produto.setCodigoAtividadeSimplesNacional(NFCodigoAtividadeSimplesNacional.REVENDA_OU_INDUSTRIALIZADAS_ANEXO_I);
+
+        Assertions.assertEquals(NFCodigoAtividadeSimplesNacional.REVENDA_OU_INDUSTRIALIZADAS_ANEXO_I, produto.getCodigoAtividadeSimplesNacional());
+        Assertions.assertTrue(produto.toString().contains("<indTot>1</indTot><indBemMovelUsado>1</indBemMovelUsado><cAtivSN>01</cAtivSN><DI>"));
+    }
+
+    @Test
+    public void deveGerarCodigoAtividadeSimplesNacionalAposIndicadorTotalSemBemMovelUsado() {
+        final NFNotaInfoItemProduto produto = FabricaDeObjetosFake.getNFNotaInfoItemProduto();
+        produto.setCodigoAtividadeSimplesNacional(NFCodigoAtividadeSimplesNacional.OPERACOES_NAO_TRIBUTAVEIS);
+        Assertions.assertTrue(produto.toString().contains("<indTot>1</indTot><cAtivSN>90</cAtivSN><DI>"));
+    }
+
+    @Test
+    public void deveLerCodigoAtividadeSimplesNacionalDoXML() throws Exception {
+        final NFNotaInfoItemProduto produto = FabricaDeObjetosFake.getNFNotaInfoItemProduto();
+        produto.setCodigoAtividadeSimplesNacional(NFCodigoAtividadeSimplesNacional.DEMAIS_BENS_MATERIAIS_ZFM_SEM_ICMS_ANEXO_II);
+
+        final NFNotaInfoItemProduto lido = new DFPersister().read(NFNotaInfoItemProduto.class, produto.toString());
+        Assertions.assertEquals(NFCodigoAtividadeSimplesNacional.DEMAIS_BENS_MATERIAIS_ZFM_SEM_ICMS_ANEXO_II, lido.getCodigoAtividadeSimplesNacional());
     }
 }

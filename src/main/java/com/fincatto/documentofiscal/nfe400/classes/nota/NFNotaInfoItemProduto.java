@@ -1,6 +1,7 @@
 package com.fincatto.documentofiscal.nfe400.classes.nota;
 
 import com.fincatto.documentofiscal.DFBase;
+import com.fincatto.documentofiscal.nfe400.classes.NFCodigoAtividadeSimplesNacional;
 import com.fincatto.documentofiscal.nfe400.classes.NFProdutoCompoeValorNota;
 import com.fincatto.documentofiscal.nfe400.converters.NFStringNullToEmptyConverter;
 import com.fincatto.documentofiscal.validadores.DFBigDecimalValidador;
@@ -108,6 +109,9 @@ public class NFNotaInfoItemProduto extends DFBase {
 
     @Element(name = "indBemMovelUsado", required = false)
     private String indicadorBemMovelUsado;
+
+    @Element(name = "cAtivSN", required = false)
+    private NFCodigoAtividadeSimplesNacional codigoAtividadeSimplesNacional; // I17d - NT 2026.005
 
     @ElementList(entry = "DI", inline = true, required = false)
     private List<NFNotaInfoItemProdutoDeclaracaoImportacao> declaracoesImportacao;
@@ -282,6 +286,14 @@ public class NFNotaInfoItemProduto extends DFBase {
     public void setIndicadorBemMovelUsado(String indicadorBemMovelUsado) {
 		this.indicadorBemMovelUsado = indicadorBemMovelUsado;
 	}
+
+    /**
+     * Codigo de atividade do Simples Nacional para calculo do IBS/CBS (cAtivSN - I17d - NT 2026.005).<br>
+     * Informar somente quando o emitente for optante do Simples Nacional ou estiver com opcao pendente.
+     */
+    public void setCodigoAtividadeSimplesNacional(final NFCodigoAtividadeSimplesNacional codigoAtividadeSimplesNacional) {
+        this.codigoAtividadeSimplesNacional = codigoAtividadeSimplesNacional;
+    }
 
 	public void setDeclaracoesImportacao(final List<NFNotaInfoItemProdutoDeclaracaoImportacao> declaracoesImportacao) {
         this.declaracoesImportacao = declaracoesImportacao;
@@ -497,6 +509,10 @@ public class NFNotaInfoItemProduto extends DFBase {
     public String getIndicadorBemMovelUsado() {
 		return indicadorBemMovelUsado;
 	}
+
+    public NFCodigoAtividadeSimplesNacional getCodigoAtividadeSimplesNacional() {
+        return this.codigoAtividadeSimplesNacional;
+    }
 
 	public List<NFNotaInfoItemProdutoDeclaracaoImportacao> getDeclaracoesImportacao() {
         return this.declaracoesImportacao;

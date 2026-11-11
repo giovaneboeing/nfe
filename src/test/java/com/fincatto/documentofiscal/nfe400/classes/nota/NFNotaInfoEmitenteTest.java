@@ -2,6 +2,8 @@ package com.fincatto.documentofiscal.nfe400.classes.nota;
 
 import com.fincatto.documentofiscal.nfe400.FabricaDeObjetosFake;
 import com.fincatto.documentofiscal.nfe400.classes.NFRegimeTributario;
+import com.fincatto.documentofiscal.nfe400.classes.NFTipoRegimeIBSCBS;
+import com.fincatto.documentofiscal.utils.DFPersister;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -233,5 +235,31 @@ public class NFNotaInfoEmitenteTest {
 
         final String xmlEsperado = "<NFNotaInfoEmitente><CPF>12345678901</CPF><xNome>Rhass3yMarv7W26gljGNMGXXyPZfSFDEiN472mTU7UWxokviyHMfeD7vCVg3</xNome><xFant>TKuTABBqcwEOeMwQepTIAvhOPx8qDf8Q5C8fbGgjonxl1ML9NErg9yVk2bGn</xFant><enderEmit><xLgr>NKwaAJ5ZJ49aQYmqBvxMhBzkGUqvtXnqusGEtjDzKCXPGwrEZCS8LGKHyBbV</xLgr><nro>11mzXHR8rZTgfE35EqfGhiShiIwQfLCAziFDXVgs3EjLSPkZkCvfGNLMEf5y</nro><xCpl>Fr3gSvoAeKbGpQD3r98KFeB50P3Gq14XBVsv5fpiaBvJ3HTOpREiwYGs20Xw</xCpl><xBairro>67LQFlXOBK0JqAE1rFi2CEyUGW5Z8QmmHhzmZ9GABVLKa9AbV0uFR0onl7nU</xBairro><cMun>9999999</cMun><xMun>s1Cr2hWP6bptQ80A9vWBuTaODR1U82LtKQi1DEm3LsAXu9AbkSeCtfXJVTKG</xMun><UF>RS</UF><CEP>88095550</CEP><cPais>1058</cPais><fone>12345678901324</fone></enderEmit><IE>ISENTO</IE><IEST>84371964648860</IEST><IM>zjfBnFVG8TBq8iW</IM><CNAE>0111111</CNAE><CRT>3</CRT></NFNotaInfoEmitente>";
         Assertions.assertEquals(xmlEsperado, emitente.toString());
+    }
+
+    @Test
+    public void naoDeveGerarTipoRegimeIBSCBSQuandoNulo() {
+        Assertions.assertNull(FabricaDeObjetosFake.getNFNotaInfoEmitente().getTipoRegimeIBSCBS());
+        Assertions.assertFalse(FabricaDeObjetosFake.getNFNotaInfoEmitente().toString().contains("tpRegimeIBSCBS"));
+    }
+
+    @Test
+    public void deveGerarTipoRegimeIBSCBSLogoAposCRT() {
+        final NFNotaInfoEmitente emitente = FabricaDeObjetosFake.getNFNotaInfoEmitente();
+        emitente.setRegimeTributario(NFRegimeTributario.SIMPLES_NACIONAL);
+        emitente.setTipoRegimeIBSCBS(NFTipoRegimeIBSCBS.SIMPLES_NACIONAL_COM_REGIME_REGULAR);
+
+        Assertions.assertEquals(NFTipoRegimeIBSCBS.SIMPLES_NACIONAL_COM_REGIME_REGULAR, emitente.getTipoRegimeIBSCBS());
+        Assertions.assertTrue(emitente.toString().endsWith("<CRT>1</CRT><tpRegimeIBSCBS>1</tpRegimeIBSCBS></NFNotaInfoEmitente>"));
+    }
+
+    @Test
+    public void deveLerTipoRegimeIBSCBSDoXML() throws Exception {
+        final NFNotaInfoEmitente emitente = FabricaDeObjetosFake.getNFNotaInfoEmitente();
+        emitente.setTipoRegimeIBSCBS(NFTipoRegimeIBSCBS.NORMAL_PENDENTE_SIMPLES_NACIONAL_COM_REGIME_REGULAR);
+
+        final NFNotaInfoEmitente lido = new DFPersister().read(NFNotaInfoEmitente.class, emitente.toString());
+        Assertions.assertEquals(NFTipoRegimeIBSCBS.NORMAL_PENDENTE_SIMPLES_NACIONAL_COM_REGIME_REGULAR, lido.getTipoRegimeIBSCBS());
+        Assertions.assertEquals(emitente.toString(), lido.toString());
     }
 }
