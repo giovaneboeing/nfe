@@ -353,6 +353,12 @@
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
+			<!-- PROVISORIO NT 2026.005 v1.00: a SEFAZ nao publicou pacote de schemas da NF-e/NFC-e para a NT 2026.005 ate 11/11/2026; elemento incluido manualmente conforme o leiaute da NT. Substituir pelo pacote oficial quando for publicado no Portal da NF-e. -->
+			<xs:element name="gTribSN" type="TTribSN" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Grupo de informações da composição do valor do IBS e da CBS para o Simples Nacional (UB115a - NT 2026.005)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="TIS">
@@ -707,6 +713,72 @@
 						<xs:element name="vCBSEstCred" type="TDec1302RTC">
 							<xs:annotation>
 								<xs:documentation>Valor total da CBS estornada</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!-- PROVISORIO NT 2026.005 v1.00: a SEFAZ nao publicou pacote de schemas da NF-e/NFC-e para a NT 2026.005 ate 11/11/2026; elemento incluido manualmente conforme o leiaute da NT. Substituir pelo pacote oficial quando for publicado no Portal da NF-e. -->
+			<xs:element name="gTribSN" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Grupo de totais da composição do valor do IBS e da CBS para o Simples Nacional (W59h - NT 2026.005)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="vIBSSN" type="TDec1302RTC">
+							<xs:annotation>
+								<xs:documentation>Valor Total do IBS para os Optantes do Simples Nacional (W59i)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="vCBSSN" type="TDec1302RTC">
+							<xs:annotation>
+								<xs:documentation>Valor Total da CBS para os Optantes do Simples Nacional (W59j)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- PROVISORIO NT 2026.005 v1.00: a SEFAZ nao publicou pacote de schemas da NF-e/NFC-e para a NT 2026.005 ate 11/11/2026; elemento incluido manualmente conforme o leiaute da NT. Substituir pelo pacote oficial quando for publicado no Portal da NF-e. Baseado no TTribSN do pacote PL_CTe_400_NT2026.005 RTC SN_1.00, com gCBSSN obrigatorio (1-1) conforme o leiaute da NF-e. -->
+	<xs:complexType name="TTribSN">
+		<xs:annotation>
+			<xs:documentation>Grupo de informações da composição do valor do IBS e da CBS para o Simples Nacional (NT 2026.005)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="gIBSSN" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Grupo de informações da composição do valor do IBS para o Simples Nacional (UB115b)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pIBSSN" type="TDec_0302_04RTC">
+							<xs:annotation>
+								<xs:documentation>Alíquota efetiva do IBS para os Optantes do Simples (UB115c)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="vIBSSN" type="TDec1302RTC">
+							<xs:annotation>
+								<xs:documentation>Valor do IBS para os Optantes do Simples Nacional (UB115d)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="gCBSSN">
+				<xs:annotation>
+					<xs:documentation>Grupo de informações da composição do valor da CBS para o Simples Nacional (UB115e)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pCBSSN" type="TDec_0302_04RTC">
+							<xs:annotation>
+								<xs:documentation>Alíquota efetiva da CBS para os Optantes do Simples (UB115f)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="vCBSSN" type="TDec1302RTC">
+							<xs:annotation>
+								<xs:documentation>Valor da CBS para os Optantes do Simples Nacional (UB115g)</xs:documentation>
 							</xs:annotation>
 						</xs:element>
 					</xs:sequence>

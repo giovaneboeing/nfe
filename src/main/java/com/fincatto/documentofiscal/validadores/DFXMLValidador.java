@@ -15,6 +15,8 @@ public final class DFXMLValidador {
 
     private static final String PACOTE_NFE310 = "schemas/PL_008i2";
     // PL_010g_v1.03: NT 2026.008 (valor liquido vUnComLiq/vProdLiq/vProdLiqTot e grupo ICMSPrevistoPagtoAntecip)
+    // + NT 2026.005 v1.00 (tpRegimeIBSCBS, cAtivSN e gTribSN no item e no total) incluida manualmente nos XSDs do PL_010g_v1.03.
+    // PROVISORIO: a SEFAZ nao publicou o pacote de schemas da NF-e para a NT 2026.005 ate 11/11/2026; substituir pelo pacote oficial quando sair.
     private static final String PACOTE_NFE400 = "schemas/PL_010g_v1.03";
     private static final String PACOTE_MDFE300 = "schemas/PL_MDFe_300b_NT012025_1.03";
     private static final String PACOTE_CTE300 = "schemas/PL_CTe_300a_NT2022.001";

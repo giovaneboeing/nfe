@@ -53,4 +53,93 @@ public class DFXMLValidadorNFe400Test {
         final String xml = NFE.replace(GRUPO_ICMS00, GRUPO_ICMS00.replace("</ICMS00></ICMS>", "</ICMS00><ICMSPrevistoPagtoAntecip><vICMSPrevisto>0.00</vICMSPrevisto></ICMSPrevistoPagtoAntecip></ICMS>"));
         Assertions.assertThrows(SAXParseException.class, () -> DFXMLValidador.validaNota400(xml));
     }
+
+    // NT 2026.005 (Simples Nacional) - XSDs provisorios incluidos manualmente no PL_010g_v1.03
+    private static final String FIM_EMITENTE = "<CRT>3</CRT></emit>";
+    private static final String FIM_PRODUTO = "<indTot>1</indTot></prod>";
+    private static final String FIM_IMPOSTO = "</ICMS></imposto>";
+    private static final String FIM_TOTAL = "</ICMSTot></total>";
+    private static final String GRUPO_TRIB_SN_ITEM = "<gTribSN><gIBSSN><pIBSSN>1.2345</pIBSSN><vIBSSN>2.47</vIBSSN></gIBSSN><gCBSSN><pCBSSN>3.50</pCBSSN><vCBSSN>7.00</vCBSSN></gCBSSN></gTribSN>";
+    private static final String GRUPO_TRIB_SN_TOTAL = "<gTribSN><vIBSSN>2.47</vIBSSN><vCBSSN>7.00</vCBSSN></gTribSN>";
+
+    private static String notaSimplesNacional(final String emitente, final String produto, final String ibscbsItem, final String ibscbsTotal) {
+        return NFE.replace(FIM_EMITENTE, emitente)
+                .replace(FIM_PRODUTO, produto)
+                .replace(FIM_IMPOSTO, "</ICMS><IBSCBS><CST>410</CST><cClassTrib>410001</cClassTrib>" + ibscbsItem + "</IBSCBS></imposto>")
+                .replace(FIM_TOTAL, "</ICMSTot><IBSCBSTot><vBCIBSCBS>0.00</vBCIBSCBS>" + ibscbsTotal + "</IBSCBSTot></total>");
+    }
+
+    @Test
+    public void deveValidarNotaComOsCamposDaNT2026005() throws Exception {
+        final String xml = notaSimplesNacional("<CRT>3</CRT><tpRegimeIBSCBS>2</tpRegimeIBSCBS></emit>", "<indTot>1</indTot><cAtivSN>01</cAtivSN></prod>", GRUPO_TRIB_SN_ITEM, GRUPO_TRIB_SN_TOTAL);
+        Assertions.assertTrue(DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void deveValidarNotaComGrupoTribSNSemGrupoIBSSN() throws Exception {
+        final String xml = notaSimplesNacional("<CRT>2</CRT></emit>", "<indTot>1</indTot><cAtivSN>90</cAtivSN></prod>", "<gTribSN><gCBSSN><pCBSSN>3.50</pCBSSN><vCBSSN>7.00</vCBSSN></gCBSSN></gTribSN>", "<gTribSN><vIBSSN>0.00</vIBSSN><vCBSSN>7.00</vCBSSN></gTribSN>");
+        Assertions.assertTrue(DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void deveValidarGrupoTribSNAposEstornoDeCreditoNoItemENoTotal() throws Exception {
+        final String xml = notaSimplesNacional(FIM_EMITENTE, FIM_PRODUTO,
+                "<gEstornoCred><vIBSEstCred>1.00</vIBSEstCred><vCBSEstCred>1.00</vCBSEstCred></gEstornoCred>" + GRUPO_TRIB_SN_ITEM,
+                "<gEstornoCred><vIBSEstCred>1.00</vIBSEstCred><vCBSEstCred>1.00</vCBSEstCred></gEstornoCred>" + GRUPO_TRIB_SN_TOTAL);
+        Assertions.assertTrue(DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void naoDeveValidarTipoRegimeIBSCBSAntesDoCRT() {
+        final String xml = NFE.replace(FIM_EMITENTE, "<tpRegimeIBSCBS>1</tpRegimeIBSCBS><CRT>1</CRT></emit>");
+        Assertions.assertThrows(SAXParseException.class, () -> DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void naoDeveValidarTipoRegimeIBSCBSInexistente() {
+        final String xml = NFE.replace(FIM_EMITENTE, "<CRT>1</CRT><tpRegimeIBSCBS>5</tpRegimeIBSCBS></emit>");
+        Assertions.assertThrows(SAXParseException.class, () -> DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void naoDeveValidarCodigoAtividadeSimplesNacionalAntesDoIndicadorTotal() {
+        final String xml = NFE.replace(FIM_PRODUTO, "<cAtivSN>01</cAtivSN><indTot>1</indTot></prod>");
+        Assertions.assertThrows(SAXParseException.class, () -> DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void naoDeveValidarCodigoAtividadeSimplesNacionalInexistente() {
+        final String xml = NFE.replace(FIM_PRODUTO, "<indTot>1</indTot><cAtivSN>1</cAtivSN></prod>");
+        Assertions.assertThrows(SAXParseException.class, () -> DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void naoDeveValidarGrupoTribSNSemGrupoCBSSN() {
+        final String xml = notaSimplesNacional(FIM_EMITENTE, FIM_PRODUTO, "<gTribSN><gIBSSN><pIBSSN>1.2345</pIBSSN><vIBSSN>2.47</vIBSSN></gIBSSN></gTribSN>", GRUPO_TRIB_SN_TOTAL);
+        Assertions.assertThrows(SAXParseException.class, () -> DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void naoDeveValidarGrupoTribSNAntesDoEstornoDeCreditoNoItem() {
+        final String xml = notaSimplesNacional(FIM_EMITENTE, FIM_PRODUTO, GRUPO_TRIB_SN_ITEM + "<gEstornoCred><vIBSEstCred>1.00</vIBSEstCred><vCBSEstCred>1.00</vCBSEstCred></gEstornoCred>", GRUPO_TRIB_SN_TOTAL);
+        Assertions.assertThrows(SAXParseException.class, () -> DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void naoDeveValidarGrupoTribSNAntesDoEstornoDeCreditoNoTotal() {
+        final String xml = notaSimplesNacional(FIM_EMITENTE, FIM_PRODUTO, GRUPO_TRIB_SN_ITEM, GRUPO_TRIB_SN_TOTAL + "<gEstornoCred><vIBSEstCred>1.00</vIBSEstCred><vCBSEstCred>1.00</vCBSEstCred></gEstornoCred>");
+        Assertions.assertThrows(SAXParseException.class, () -> DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void naoDeveValidarGrupoCBSSNAntesDoGrupoIBSSN() {
+        final String xml = notaSimplesNacional(FIM_EMITENTE, FIM_PRODUTO, "<gTribSN><gCBSSN><pCBSSN>3.50</pCBSSN><vCBSSN>7.00</vCBSSN></gCBSSN><gIBSSN><pIBSSN>1.2345</pIBSSN><vIBSSN>2.47</vIBSSN></gIBSSN></gTribSN>", GRUPO_TRIB_SN_TOTAL);
+        Assertions.assertThrows(SAXParseException.class, () -> DFXMLValidador.validaNota400(xml));
+    }
+
+    @Test
+    public void naoDeveValidarAliquotaIBSSNComMaisDeQuatroCasasDecimais() {
+        final String xml = notaSimplesNacional(FIM_EMITENTE, FIM_PRODUTO, GRUPO_TRIB_SN_ITEM.replace("1.2345", "1.23456"), GRUPO_TRIB_SN_TOTAL);
+        Assertions.assertThrows(SAXParseException.class, () -> DFXMLValidador.validaNota400(xml));
+    }
 }
