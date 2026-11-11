@@ -32,6 +32,12 @@ public class NFNotaInfoIBSCBSTot extends DFBase {
   @Element(name = "gEstornoCred", required = false)
   private NFNotaInfoIBSCBSGrupoEstornoCredito grupoEstornoCredito;
 
+  /**
+   * W59h - Grupo de totais da composicao do valor do IBS e da CBS para o Simples Nacional (NT 2026.005)
+   */
+  @Element(name = "gTribSN", required = false)
+  private NFNotaInfoIBSCBSTotTribSN grupoTributacaoSimplesNacional;
+
   public String getVBCIBSCBS() {
     return vBCIBSCBS;
   }
@@ -70,6 +76,14 @@ public class NFNotaInfoIBSCBSTot extends DFBase {
 
   public void setGrupoEstornoCredito(NFNotaInfoIBSCBSGrupoEstornoCredito grupoEstornoCredito) {
     this.grupoEstornoCredito = grupoEstornoCredito;
+  }
+
+  public NFNotaInfoIBSCBSTotTribSN getGrupoTributacaoSimplesNacional() {
+    return grupoTributacaoSimplesNacional;
+  }
+
+  public void setGrupoTributacaoSimplesNacional(final NFNotaInfoIBSCBSTotTribSN grupoTributacaoSimplesNacional) {
+    this.grupoTributacaoSimplesNacional = grupoTributacaoSimplesNacional;
   }
 
   // W36

@@ -66,6 +66,13 @@ public class NFNotaInfoItemImpostoIBSCBS extends DFBase {
     @Element(name = "gAjusteCompet", required = false)
     private GrupoAjusteCompetencia grupoAjusteCompetencia;
 
+    /**
+     * UB115a - Grupo de informacoes da composicao do valor do IBS e da CBS para o Simples Nacional (NT 2026.005).<br>
+     * Ultimo elemento do grupo IBSCBS no leiaute.
+     */
+    @Element(name = "gTribSN", required = false)
+    private NFNotaInfoItemImpostoIBSCBSTribSN grupoTributacaoSimplesNacional;
+
     public NFNotaInfoImpostoTributacaoIBSCBS getCst() {
         return cst;
     }
@@ -145,6 +152,14 @@ public class NFNotaInfoItemImpostoIBSCBS extends DFBase {
 
     public void setGrupoAjusteCompetencia(GrupoAjusteCompetencia grupoAjusteCompetencia) {
         this.grupoAjusteCompetencia = grupoAjusteCompetencia;
+    }
+
+    public NFNotaInfoItemImpostoIBSCBSTribSN getGrupoTributacaoSimplesNacional() {
+        return grupoTributacaoSimplesNacional;
+    }
+
+    public void setGrupoTributacaoSimplesNacional(final NFNotaInfoItemImpostoIBSCBSTribSN grupoTributacaoSimplesNacional) {
+        this.grupoTributacaoSimplesNacional = grupoTributacaoSimplesNacional;
     }
 
     /**
